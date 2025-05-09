@@ -1,0 +1,14 @@
+package src.main.java.com.carrental.services;
+
+
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+
+@Service
+public class KafkaConsumerService {
+
+    @KafkaListener(topics = "rental_topic", groupId = "car_rental_group")
+    public void listenRentalEvents(String message) {
+        System.out.println("Kafka Event Received: " + message);
+    }
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dummy Payment Gateway</title>
+</head>
+<body>
+<h2>Dummy Payment Gateway</h2>
+<p>Pay ₹<span id="amount"></span> for your reservation</p>
+
+<label for="status">Choose Payment Status:</label>
+<select id="status">
+    <option value="SUCCESS">SUCCESS</option>
+    <option value="FAILED">FAILED</option>
+</select>
+
+<button onclick="processPayment()">Pay Now</button>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const reservationId = urlParams.get('reservationId');
+    const amount = urlParams.get('amount');
+    document.getElementById('amount').innerText = amount;
+
+    function processPayment() {
+        const status = document.getElementById('status').value;
+        fetch(`/api/payments/confirm?reservationId=${reservationId}&status=${status}`, {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+</body>
+</html>
